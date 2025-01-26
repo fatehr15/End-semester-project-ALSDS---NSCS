@@ -1,0 +1,189 @@
+#include <cassert>
+#include "MatrixOperations.h"
+
+
+int main() {
+    test_initializeMatrix();
+    test_addMatrices();
+    test_subtractMatrices();
+    test_multiplyMatrices();
+    test_scalarMultiplyMatrix();
+    test_isSquareMatrix();
+    test_isIdentityMatrix();
+    test_isDiagonalMatrix();
+    test_isSymmetricMatrix();
+    test_isUpperTriangular();
+    test_transposeMatrix();
+    test_determinantMatrix();
+    test_inverseMatrix();
+    test_matrixPower();
+    test_luDecomposition();
+    test_traceMatrix();
+    test_rotateMatrix90();
+
+    printf("All tests passed!\n");
+    return 0;
+}
+
+void test_initializeMatrix() {
+    int rows = 2, cols = 3;
+    int matrix[rows][cols];
+    int value = 5;
+    initializeMatrix(rows, cols, matrix, value);
+    for (int i = 0; i < rows; i++) {
+        for (int j = 0; j < cols; j++) {
+            assert(matrix[i][j] == value);
+        }
+    }
+}
+
+void test_addMatrices() {
+    int mat1[2][2] = {{1, 2}, {3, 4}};
+    int mat2[2][2] = {{5, 6}, {7, 8}};
+    int result[2][2];
+    addMatrices(2, 2, mat1, mat2, result);
+    assert(result[0][0] == 6);
+    assert(result[0][1] == 8);
+    assert(result[1][0] == 10);
+    assert(result[1][1] == 12);
+}
+
+void test_subtractMatrices() {
+    int mat1[2][2] = {{5, 6}, {7, 8}};
+    int mat2[2][2] = {{1, 2}, {3, 4}};
+    int result[2][2];
+    subtractMatrices(2, 2, mat1, mat2, result);
+    assert(result[0][0] == 4);
+    assert(result[0][1] == 4);
+    assert(result[1][0] == 4);
+    assert(result[1][1] == 4);
+}
+
+void test_multiplyMatrices() {
+    int mat1[2][3] = {{1, 2, 3}, {4, 5, 6}};
+    int mat2[3][2] = {{7, 8}, {9, 10}, {11, 12}};
+    int result[2][2];
+    multiplyMatrices(2, 3, 3, 2, mat1, mat2, result);
+    assert(result[0][0] == 58);
+    assert(result[0][1] == 64);
+    assert(result[1][0] == 139);
+    assert(result[1][1] == 154);
+}
+
+void test_scalarMultiplyMatrix() {
+    int matrix[2][2] = {{1, 2}, {3, 4}};
+    scalarMultiplyMatrix(2, 2, matrix, 2);
+    assert(matrix[0][0] == 2);
+    assert(matrix[0][1] == 4);
+    assert(matrix[1][0] == 6);
+    assert(matrix[1][1] == 8);
+}
+
+void test_isSquareMatrix() {
+    assert(isSquareMatrix(2, 3) == false);
+    assert(isSquareMatrix(3, 3) == true);
+}
+
+void test_isIdentityMatrix() {
+    int identity[3][3] = {{1, 0, 0}, {0, 1, 0}, {0, 0, 1}};
+    assert(isIdentityMatrix(3, identity) == true);
+    int not_identity[3][3] = {{1, 0, 0}, {0, 1, 0}, {0, 1, 1}};
+    assert(isIdentityMatrix(3, not_identity) == false);
+}
+
+void test_isDiagonalMatrix() {
+    int diagonal[3][3] = {{1, 0, 0}, {0, 2, 0}, {0, 0, 3}};
+    assert(isDiagonalMatrix(3, diagonal) == true);
+    int non_diagonal[3][3] = {{1, 0, 0}, {0, 2, 1}, {0, 0, 3}};
+    assert(isDiagonalMatrix(3, non_diagonal) == false);
+}
+
+void test_isSymmetricMatrix() {
+    int symmetric[3][3] = {{1, 2, 3}, {2, 4, 5}, {3, 5, 6}};
+    assert(isSymmetricMatrix(3, symmetric) == true);
+    int non_symmetric[3][3] = {{1, 2, 3}, {4, 5, 6}, {7, 8, 9}};
+    assert(isSymmetricMatrix(3, non_symmetric) == false);
+}
+
+void test_isUpperTriangular() {
+    int upper[3][3] = {{1, 2, 3}, {0, 4, 5}, {0, 0, 6}};
+    assert(isUpperTriangular(3, upper) == true);
+    int not_upper[3][3] = {{1, 2, 3}, {4, 5, 6}, {7, 8, 9}};
+    assert(isUpperTriangular(3, not_upper) == false);
+}
+
+void test_transposeMatrix() {
+    int matrix[2][3] = {{1, 2, 3}, {4, 5, 6}};
+    int result[3][2];
+    transposeMatrix(2, 3, matrix, result);
+    assert(result[0][0] == 1 && result[0][1] == 4);
+    assert(result[1][0] == 2 && result[1][1] == 5);
+    assert(result[2][0] == 3 && result[2][1] == 6);
+}
+
+void test_determinantMatrix() {
+    int mat1[1][1] = {{5}};
+    assert(determinantMatrix(1, mat1) == 5);
+    int mat2[2][2] = {{1, 2}, {3, 4}};
+    assert(determinantMatrix(2, mat2) == -2);
+    int mat3[3][3] = {{2, -3, 1}, {2, 0, -1}, {1, 4, 5}};
+    assert(determinantMatrix(3, mat3) == 49);
+}
+
+void test_inverseMatrix() {
+    int mat[2][2] = {{2, 5}, {1, 3}};
+    int inverse[2][2];
+    inverseMatrix(2, mat, inverse);
+    assert(inverse[0][0] == 3 && inverse[0][1] == -5);
+    assert(inverse[1][0] == -1 && inverse[1][1] == 2);
+}
+
+void test_matrixPower() {
+    int matrix[2][2] = {{1, 2}, {3, 4}};
+    int result[2][2];
+    matrixPower(2, matrix, 0, result);
+    assert(result[0][0] == 1 && result[0][1] == 0);
+    assert(result[1][0] == 0 && result[1][1] == 1);
+
+    matrixPower(2, matrix, 1, result);
+    assert(result[0][0] == 1 && result[0][1] == 2);
+    assert(result[1][0] == 3 && result[1][1] == 4);
+
+    matrixPower(2, matrix, 2, result);
+    assert(result[0][0] == 7 && result[0][1] == 10);
+    assert(result[1][0] == 15 && result[1][1] == 22);
+}
+
+void test_luDecomposition() {
+    int size = 3;
+    double matrix[3][3] = {{4, 3, 1}, {2, 5, 6}, {1, 2, 3}};
+    double lower[3][3], upper[3][3];
+    luDecomposition(size, matrix, lower, upper);
+
+    double product[3][3] = {0};
+    for (int i = 0; i < size; i++) {
+        for (int j = 0; j < size; j++) {
+            for (int k = 0; k < size; k++) {
+                product[i][j] += lower[i][k] * upper[k][j];
+            }
+            assert(fabs(product[i][j] - matrix[i][j]) < 1e-6);
+        }
+    }
+}
+
+void test_traceMatrix() {
+    int matrix[3][3] = {{1, 2, 3}, {4, 5, 6}, {7, 8, 9}};
+    assert(traceMatrix(3, matrix) == 15);
+}
+
+void test_rotateMatrix90() {
+    int size = 3;
+    int matrix[3][3] = {{1, 2, 3}, {4, 5, 6}, {7, 8, 9}};
+    rotateMatrix90(size, matrix);
+    int expected[3][3] = {{7, 4, 1}, {8, 5, 2}, {9, 6, 3}};
+    for (int i = 0; i < size; i++) {
+        for (int j = 0; j < size; j++) {
+            assert(matrix[i][j] == expected[i][j]);
+        }
+    }
+}
