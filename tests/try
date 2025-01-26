@@ -1,0 +1,240 @@
+// main.c
+#include <stdio.h>
+#include <stdlib.h>
+#include "NumericOperatins.h"
+#include "ArrayOperatins.h"
+#include "StringOperatins.h"
+#include "MatrixOperatins.h"
+#include "CHIPHER.h"
+
+void showMainMenu();
+void handleNumbers();
+void handleArrays();
+void handleStrings();
+void handleMatrices();
+void handleCiphers();
+
+int main() {
+    while(1) {
+        showMainMenu();
+        int choice;
+        printf("Enter choice: ");
+        scanf("%d", &choice);
+        
+        switch(choice) {
+            case 1: handleNumbers(); break;
+            case 2: handleArrays(); break;
+            case 3: handleStrings(); break;
+            case 4: handleMatrices(); break;
+            case 5: handleCiphers(); break;
+            case 0: exit(0);
+            default: printf("Invalid choice!\n");
+        }
+    }
+    return 0;
+}
+
+void showMainMenu() {
+    printf("\n=== Main Menu ===\n");
+    printf("1. Number Operations\n");
+    printf("2. Array Operations\n");
+    printf("3. String Operations\n");
+    printf("4. Matrix Operations\n");
+    printf("5. Cipher Operations\n");
+    printf("0. Exit\n");
+}
+
+// Numbers Module
+void handleNumbers() {
+    int choice, num, a, b;
+    printf("\n=== Number Operations ===\n");
+    printf("1. Basic Operations\n");
+    printf("2. Advanced Operations\n");
+    printf("0. Back\n");
+    printf("Enter choice: ");
+    scanf("%d", &choice);
+
+    switch(choice) {
+        case 1:
+            printf("\nBasic Operations:\n");
+            printf("1. Sum of Digits\n2. Reverse Number\n3. Check Palindrome\n");
+            printf("4. Check Prime\n5. GCD\n6. LCM\n7. Factorial\n");
+            printf("Enter operation: ");
+            scanf("%d", &choice);
+            printf("Enter number: ");
+            scanf("%d", &num);
+            
+            switch(choice) {
+                case 1: printf("Sum: %d\n", sumOFDigits(num)); break;
+                case 2: printf("Reversed: %d\n", reverseNumber(num)); break;
+                case 3: printf(isPalindrome(num) ? "Palindrome\n" : "Not Palindrome\n"); break;
+                case 4: printf(isPrime(num) ? "Prime\n" : "Not Prime\n"); break;
+                case 5: 
+                    printf("Enter second number: ");
+                    scanf("%d", &b);
+                    printf("GCD: %d\n", gcd(num, b)); 
+                    break;
+                case 6:
+                    printf("Enter second number: ");
+                    scanf("%d", &b);
+                    printf("LCM: %d\n", lcm(num, b));
+                    break;
+                case 7: printf("Factorial: %ld\n", factorial(num)); break;
+            }
+            break;
+            
+        case 2:
+            printf("\nAdvanced Operations:\n");
+            printf("1. Prime Factors\n2. Check Armstrong\n3. Fibonacci Series\n");
+            printf("Enter operation: ");
+            scanf("%d", &choice);
+            printf("Enter number: ");
+            scanf("%d", &num);
+            
+            switch(choice) {
+                case 1: 
+                    printf("Prime Factors: ");
+                    primeFactors(num);
+                    printf("\n");
+                    break;
+                case 2: 
+                    printf(isArmstrong(num) ? "Armstrong\n" : "Not Armstrong\n");
+                    break;
+                case 3: 
+                    printf("Fibonacci Series: ");
+                    fibonacciSeries(num);
+                    printf("\n");
+                    break;
+            }
+            break;
+    }
+}
+
+// Arrays Module
+void handleArrays() {
+    int size, choice;
+    printf("\nEnter array size: ");
+    scanf("%d", &size);
+    int arr[size];
+    printf("Enter elements: ");
+    for(int i=0; i<size; i++) scanf("%d", &arr[i]);
+
+    printf("\n=== Array Operations ===\n");
+    printf("1. Find Max\n2. Find Min\n3. Sum\n4. Reverse\n5. Sort\n");
+    printf("Enter choice: ");
+    scanf("%d", &choice);
+    
+    switch(choice) {
+        case 1: printf("Max: %d\n", findMax(arr, size)); break;
+        case 2: printf("Min: %d\n", findMin(arr, size)); break;
+        case 3: printf("Sum: %d\n", sumArray(arr, size)); break;
+        case 4: 
+            reverseArray(arr, size);
+            printf("Reversed: ");
+            printArray(arr, size);
+            break;
+        case 5:
+            bubbleSort(arr, size);
+            printf("Sorted: ");
+            printArray(arr, size);
+            break;
+    }
+}
+
+// Strings Module
+void handleStrings() {
+    char str[100];
+    printf("\nEnter string: ");
+    scanf(" %[^\n]s", str);
+    
+    printf("\n=== String Operations ===\n");
+    printf("1. Reverse\n2. Uppercase\n3. Check Palindrome\n");
+    printf("Enter choice: ");
+    int choice;
+    scanf("%d", &choice);
+    
+    switch(choice) {
+        case 1: 
+            reverseString(str);
+            printf("Reversed: %s\n", str);
+            break;
+        case 2:
+            toUpperCase(str);
+            printf("Uppercase: %s\n", str);
+            break;
+        case 3:
+            printf(isPalindrome(str) ? "Palindrome\n" : "Not Palindrome\n");
+            break;
+    }
+}
+
+// Matrices Module
+void handleMatrices() {
+    int rows, cols;
+    printf("\nEnter matrix dimensions (rows cols): ");
+    scanf("%d %d", &rows, &cols);
+    int mat[rows][cols];
+    inputMatrix(rows, cols, mat);
+    
+    printf("\n=== Matrix Operations ===\n");
+    printf("1. Transpose\n2. Add Matrices\n3. Multiply Matrices\n");
+    printf("Enter choice: ");
+    int choice;
+    scanf("%d", &choice);
+    
+    switch(choice) {
+        case 1: {
+            int result[cols][rows];
+            transposeMatrix(rows, cols, mat, result);
+            printf("Transpose:\n");
+            printMatrix(cols, rows, result);
+            break;
+        }
+        case 2: {
+            int mat2[rows][cols];
+            printf("Enter second matrix:\n");
+            inputMatrix(rows, cols, mat2);
+            int result[rows][cols];
+            addMatrices(rows, cols, mat, mat2, result);
+            printf("Sum:\n");
+            printMatrix(rows, cols, result);
+            break;
+        }
+        case 3: {
+            int cols2;
+            printf("Enter columns for second matrix: ");
+            scanf("%d", &cols2);
+            int mat2[cols][cols2];
+            inputMatrix(cols, cols2, mat2);
+            int result[rows][cols2];
+            multiplyMatrices(rows, cols, cols, cols2, mat, mat2, result);
+            printf("Product:\n");
+            printMatrix(rows, cols2, result);
+            break;
+        }
+    }
+}
+
+// Ciphers Module
+void handleCiphers() {
+    char text[100];
+    printf("\nEnter text: ");
+    scanf(" %[^\n]s", text);
+    
+    printf("\n=== Cipher Operations ===\n");
+    printf("1. Caesar Cipher\n2. Substitution Cipher\n");
+    printf("Enter choice: ");
+    int choice, shift;
+    scanf("%d", &choice);
+    
+    switch(choice) {
+        case 1:
+            printf("Enter shift: ");
+            scanf("%d", &shift);
+            caesarCipher(text, shift);
+            printf("Encrypted: %s\n", text);
+            break;
+        case 2: {
+            char key[27];
+            printf("Enter 26-character key: ");
+            scanf(" %s",
