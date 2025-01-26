@@ -135,22 +135,21 @@ while(num>0){
 
 
 
-//Fibonacci Sequence 
-void fibonacciSeries(int n) {
-int first = 0, second = 1, next ;
-    for (int i =1;i<=n;i++) {
-        if (i == 1) {
-            printf("%d ", first);
-        }
-        if (i == 2) {
-            printf("%d ", second) ;
-        }
-
-        next = first + second;
-        first = second;
-        second = next;
-        printf("%d ", next) ;
-    }
+//FIBONACI SEQUENCE 
+void fibonacciSeries(int n)
+      {
+       double f1=((1+sqrt(5))/2),f2=((1-sqrt(5))/2);
+       long long  F;
+       if(n<0)
+        {
+            F=-1;
+        }else 
+        {
+            for (int i=0;i<=n;i++)
+            {
+            F=((pow(f1,i)-pow(f2,i))/sqrt(5));
+            printf("%lld  ",  F);
+            }
 }
 
 //Sum of Divisors 
