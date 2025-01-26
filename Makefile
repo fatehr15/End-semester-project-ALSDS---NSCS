@@ -12,7 +12,11 @@ BUILD_DIR = build
 
 # Example and test paths
 EXAMPLES_DIR = examples
-TESTS_DIR = tests
+TESTS_DIR = test
+
+# Test targets
+TEST_SOURCES = $(wildcard $(TESTS_DIR)/test_*.c)
+TEST_TARGETS = $(patsubst $(TESTS_DIR)/%.c,$(BUILD_DIR)/%,$(TEST_SOURCES))
 
 .PHONY: all clean install uninstall test examples
 
@@ -29,12 +33,19 @@ examples: $(LIB_NAME)
 	@echo "Building examples..."
 	$(CC) $(CFLAGS) $(EXAMPLES_DIR)/example.c -L./$(BUILD_DIR) -lmylib -o $(BUILD_DIR)/example
 
-# Build and run tests
-test: $(LIB_NAME)
-	@echo "Building tests..."
-	$(CC) $(CFLAGS) $(TESTS_DIR)/test.c -L./$(BUILD_DIR) -lmylib -o $(BUILD_DIR)/test
+# Build tests
+$(BUILD_DIR)/%: $(TESTS_DIR)/%.c $(LIB_NAME)
+	@mkdir -p $(BUILD_DIR)
+	$(CC) $(CFLAGS) $< -L./$(BUILD_DIR) -lmylib -o $@
+
+# Run tests
+test: $(TEST_TARGETS)
 	@echo "Running tests..."
-	./$(BUILD_DIR)/test
+	@for test in $(TEST_TARGETS); do \
+		echo "Executing $$(basename $$test)..."; \
+		$$test || exit 1; \
+	done
+	@echo "All tests passed!"
 
 # Install library system-wide
 install:
@@ -50,4 +61,3 @@ uninstall:
 # Clean build artifacts
 clean:
 	rm -rf $(BUILD_DIR)
- 
