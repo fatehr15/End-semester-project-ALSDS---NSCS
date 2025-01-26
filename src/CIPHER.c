@@ -66,8 +66,8 @@ void xorCipher(char *text, const char *key) {
     for (int key = 0; key < 256; key++) {
         int count = 0;
         
-        for (int i = 0; ciphertext[i]; i++) {
-            char decrypted = ciphertext[i] ^ key;
+        for (int i = 0; text[i] != '\0' ; i++) {
+            char decrypted = text[i] ^ key;
             
  
             if ((decrypted >= 'A' && decrypted <= 'Z') ||(decrypted >= 'a' && decrypted <= 'z') ||decrypted == ' ') {
