@@ -261,7 +261,7 @@ void matrixPower(int size, int matrix[size][size], int power, int result[size][s
 //Advanced Matrix Functions
 
 //Minor of a matrix
-int Minor( int a , int b ,int size, int matrix[size][size], int minor[][size-1]){
+void int Minor( int a , int b ,int size, int matrix[size][size], int minor[][size-1]){
     int mini = 0;
     for(int i = 0; i <size; i++) {
         if(i ==a) {
