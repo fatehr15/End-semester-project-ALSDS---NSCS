@@ -6,14 +6,16 @@ char rightShiftChar(char c, int shift) {
         return ((c - 'a' + shift) % 26 + 'a'); 
     } else if (c >= 'A' && c <= 'Z') {
         return ((c - 'A' + shift) % 26 + 'A');
-    return c; 
+    }else{
+        return c; 
+       }
     }
 }
 
 void caesarCipher(char *text, int shift) {
     void caesarCipherRecursive(char *text, int shift, int index) {
         if (text[index] == '\0') {
-            return; 
+            return ; 
         }
 
         text[index] = rightShiftChar(text[index], shift); 
@@ -83,5 +85,13 @@ void xorCipher(char *text, const char *key) {
 
     }
 
-    return bestkey;
+    
+    for (int i = 0; text[i] != '\0'; i++) {
+        text[i] = text[i] ^ bestKey ;
+    }
+
+
+    key[0] = bestKey;
+    key[1] = '\0';
+    
 }
