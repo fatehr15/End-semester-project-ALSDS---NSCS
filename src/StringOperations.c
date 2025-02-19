@@ -100,7 +100,7 @@ void countVowelsConsonants ( char* str, int* vowels , int* consonants){
     for (int i = 0; str[i]; i++) {
         char c = tolower(str[i])  ;
         if (c >= 'a' && c <= 'z') {
-            if (c == 'a'||c=='e' ||c== 'i'||c  =='o'||c=='u')
+            if (c == 'a'||c=='e' ||c== 'i'||c  =='o'||c=='u' || c=="y")
                 (*vowels) ++ ;
             else
                 (*consonants) ++ ;
