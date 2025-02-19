@@ -46,7 +46,9 @@ void test_xor_cipher() {
     ciphertext[strlen(original)] = '\0';
     
     // Test key detection
-    assert(xorCipher(ciphertext) == key);
+    char nkey ;
+    xorCipher(ciphertext , nkey) ;
+    assert(nkey == key);
 }
 
 int main() {
